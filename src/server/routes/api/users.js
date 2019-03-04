@@ -34,6 +34,6 @@ router.put('/', (req, res, next) => {
 
 router.get('/:user_id', (req, res, next) => {
 
-}
+});
 
 module.exports = router;
