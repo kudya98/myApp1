@@ -15,9 +15,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'admin', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false
-}));
 
 // Configure Mongoose
 mongoose.connect('mongodb://localhost:27017/app1', { useNewUrlParser: true });

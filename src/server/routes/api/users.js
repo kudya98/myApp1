@@ -24,16 +24,24 @@ router.put('/', (req, res, next) => {
   }
 
   const finalUser = new Users(user);
-
-
   finalUser.setPassword(user.password);
   return finalUser.save()
     .then(() => res.send('User created'))
-    .catch(err => res.status(409).send(err.errmsg));
+    .catch(err => res.status(409).send(err));
 });
 
-router.get('/:user_id', (req, res, next) => {
-
+router.get('/:user_login', (req, res, next) => {
+  Posts
+    .find()
+    .populate('author')
+    .exec((err, result) => {
+      if (err) return (err);
+      const posts = [];
+      result.forEach(
+        (post) => { if (post.author.login === req.params.user_login) posts.push(post); }
+      );
+      return res.json(posts);
+    });
 });
 
 module.exports = router;

@@ -1,18 +1,24 @@
 const mongoose = require('mongoose');
 
-const Users = mongoose.model('Users');
+
 const { Schema } = mongoose;
 const PostsSchema = new Schema({
-  author: String,
   title: { type: String, required: true },
   text: String,
-  visitors: Number
+  date: {
+    type: Date,
+    // `Date.now()` returns the current unix timestamp as a number
+    default: Date.now
+  },
+  author: { type: String, ref: 'Users' },
+  visitors: { type: Number, default: 0 }
 });
 
-PostsSchema.methods.setAuthor = (id) => {
-  Users.findOne({ id })
+/* PostsSchema.statics.newVisitor = (post_id) => {
+  this.findById(post_id)
     .then((result) => {
-      this.author = result.login;
+      result.visitors += 1;
     });
-};
+}; */
+
 mongoose.model('Posts', PostsSchema);

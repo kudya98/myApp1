@@ -4,10 +4,13 @@ const crypto = require('crypto');
 const { Schema } = mongoose;
 const UsersSchema = new Schema({
   email: { type: String, unique: true, required: true },
-  login: { type: String, unique: true, required: true },
+  login: {
+    type: String, unique: true, required: true, index: true
+  },
   hash: String,
-  salt: String,
+  salt: String
 });
+
 
 UsersSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString('hex');
