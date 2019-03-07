@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 
-const Users = mongoose.model('Users');
 const Posts = mongoose.model('Posts');
 
 router.post('/', (req, res) => {
@@ -10,17 +9,33 @@ router.post('/', (req, res) => {
   const finalPost = new Posts({ ...post, ...{ author: req.cookies.userid } });
   finalPost.save()
     .then(() => res.send('Post created'))
-    /* .then(() => {
-      Posts
-        .findOne({ title: 'title1' })
-        .populate('author')
-        .exec((err, result) => {
-          if (err) return (err);
-          console.log('The hash is %s', result.author.hash);
-        });
-    }) */
     .catch(err => res.status(409).send(err.errmsg));
 });
+router.get('/', (req, res) => {
+  Posts.find({}, {}, {
+    skip: 0,
+    limit: 10,
+    sort: {
+      visitors: -1 // Sort DESC
+    }
+  }, (err, result) => {
+    const posts = [];
+    result.forEach(
+      (post) => {
+        posts.push({
+          id: post.id,
+          title: post.title,
+          text: post.text,
+          date: post.date,
+          author: post.author.login,
+          visitors: post.visitors
+        });
+      }
+    );
+    return res.json(posts);
+  });
+});
+
 router.get('/:post_id', (req, res) => {
   Posts.findOneAndUpdate({ _id: req.params.post_id }, { $inc: { visitors: 1 } })
     .populate('author')

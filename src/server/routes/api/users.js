@@ -4,7 +4,7 @@ const router = require('express').Router();
 const Users = mongoose.model('Users');
 const Posts = mongoose.model('Posts');
 
-router.put('/', (req, res, next) => {
+router.post('/', (req, res) => {
   const { body: { user } } = req;
 
   if (!user.email) {
@@ -30,7 +30,7 @@ router.put('/', (req, res, next) => {
     .catch(err => res.status(409).send(err));
 });
 
-router.get('/:user_login', (req, res, next) => {
+router.get('/:user_login', (req, res) => {
   Posts
     .find()
     .populate('author')
@@ -38,7 +38,17 @@ router.get('/:user_login', (req, res, next) => {
       if (err) return (err);
       const posts = [];
       result.forEach(
-        (post) => { if (post.author.login === req.params.user_login) posts.push(post); }
+        (post) => {
+          if (post.author.login === req.params.user_login) {
+            posts.push({
+              title: post.title,
+              text: post.text,
+              date: post.date,
+              author: post.author.login,
+              visitors: post.visitors
+            });
+          }
+        }
       );
       return res.json(posts);
     });
