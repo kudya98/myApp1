@@ -14,9 +14,8 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={PostList} />
+        <Route exact path="/" component={PostList} />
         <Route path="/posts/:post_id" component={Post} />
-          <Route component={Post} />
       </Switch>
     </BrowserRouter>
   </Provider>,

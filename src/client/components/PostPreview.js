@@ -4,7 +4,15 @@ import './postPreview.scss';
 import { Route, withRouter } from 'react-router-dom';
 
 const PostPreview = withRouter(props => (
-  <li className="post-preview" onClick={() => { props.history.push(`/posts/${props.id}`); }}>
+  <li
+    className="post-preview"
+    onClick={() => {
+      props.history.push({
+        pathname: `/posts/${props.id}`,
+          id: props.id
+      });
+    }}
+  >
     <div className="title">{props.title}</div>
     <div className="visitors">{`👁 ${props.visitors}`}</div>
   </li>
