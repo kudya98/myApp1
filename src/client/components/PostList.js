@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postsFetchData } from '../actions/posts';
-import Post from './Post';
+import { postListFetchData } from '../actions/postList';
+import PostPreview from './PostPreview';
+import './postList.scss';
 
 class PostList extends Component {
   componentDidMount() {
@@ -23,8 +25,8 @@ class PostList extends Component {
 
     return (
       <ul className="post-list">
-        {this.props.posts.map(post => (
-          <Post id={post.id} title={post.title} />
+        {this.props.postList.map(post => (
+          <PostPreview key={post.id} id={post.id} title={post.title} visitors={post.visitors} />
         ))}
       </ul>
     );
@@ -33,19 +35,19 @@ class PostList extends Component {
 
 PostList.propTypes = {
   fetchData: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
+  postList: PropTypes.array.isRequired,
   hasErrored: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  posts: state.posts,
-  hasErrored: state.postsHasErrored,
-  isLoading: state.postsIsLoading
+  postList: state.postList,
+  hasErrored: state.postListHasErrored,
+  isLoading: state.postListIsLoading
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: url => dispatch(postsFetchData(url))
+  fetchData: url => dispatch(postListFetchData(url))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostList));

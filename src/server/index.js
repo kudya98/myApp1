@@ -7,14 +7,14 @@ const cookieParser = require('cookie-parser');
 
 // Initiate our app
 const app = express();
-
 // app.use(require('morgan')('dev'));
 
 // Configure our app
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('dist'));
+
 
 // Configure Mongoose
 mongoose.connect('mongodb://localhost:27017/app1', { useNewUrlParser: true });

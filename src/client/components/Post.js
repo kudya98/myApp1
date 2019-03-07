@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { postsFetchData } from '../actions/postList';
+import PostPreview from './PostPreview';
+import './postList.scss';
 
-const Post = props => (
-  <li key={props.id} className="post">
-    {props.title}
-  </li>
-);
-Post.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
-};
-export default Post;
+class Post extends Component {
+  componentDidMount() {
+  }
+
+
+  render() {
+    return (
+      <button>rfwqr</button>
+    );
+  }
+}
+
+export default withRouter(Post);
