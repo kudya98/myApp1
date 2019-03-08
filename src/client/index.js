@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/configureStore';
-import PostList from './components/PostList';
-import Post from './components/Post';
+import PostList from './components/PostList/PostList';
+import Post from './components/Post/Post';
 import './app.scss';
 
 const store = configureStore();
